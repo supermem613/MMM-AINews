@@ -1,0 +1,7 @@
+{
+  "name": "mmm-ainews",
+  "version": "1.0.0",
+  "description": "MagicMirror module that summarizes RSS feeds using GitHub Copilot AI",
+  "main": "node_helper.js",
+  "license": "MIT"
+}

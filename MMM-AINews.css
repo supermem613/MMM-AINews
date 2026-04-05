@@ -1,0 +1,41 @@
+.ainews-wrapper {
+	line-height: 1.5;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+}
+
+.ainews-section {
+	margin-bottom: 10px;
+}
+
+.ainews-label {
+	display: block;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	margin-bottom: 2px;
+	opacity: 0.5;
+}
+
+.ainews-paragraph {
+	margin: 0;
+	padding: 0;
+}
+
+.ainews-footer {
+	margin-top: 12px;
+	text-align: right;
+}
+
+.ainews-stale {
+	color: #ff8800;
+}
+
+.ainews-loading,
+.ainews-error,
+.ainews-empty {
+	font-style: italic;
+}
+
+.ainews-error {
+	color: #ff4444;
+}
