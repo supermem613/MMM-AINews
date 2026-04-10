@@ -158,7 +158,7 @@ module.exports = NodeHelper.create({
     const credPath = path.resolve(
       __dirname,
       "credentials",
-      "copilot-credentials.json"
+      "github-oauth.json"
     );
     try {
       const data = JSON.parse(fs.readFileSync(credPath, "utf8"));
@@ -262,17 +262,16 @@ module.exports = NodeHelper.create({
   },
 
   /**
-   * Fetch an RSS feed and return parsed items.
+   * Fetch a single RSS feed URL and return parsed items.
    *
-   * @param {object} source Feed source configuration.
-   * @param {string} source.url Feed URL.
+   * @param {string} url Feed URL to fetch.
    * @returns {Promise<object[]>} Parsed feed items.
    */
-  fetchRSS: async function (source) {
+  fetchRSS: async function (url) {
     const FeedMe = require("feedme");
 
     try {
-      const xml = await httpText(source.url, {
+      const xml = await httpText(url, {
         headers: { "User-Agent": "Mozilla/5.0 (compatible; MMM-AINews/1.0)" }
       });
 
@@ -305,10 +304,47 @@ module.exports = NodeHelper.create({
       return items;
     } catch (err) {
       Log.warn(
-        `MMM-AINews: Failed to fetch/parse RSS from ${source.url}: ${err.message}`
+        `MMM-AINews: Failed to fetch/parse RSS from ${url}: ${err.message}`
       );
       return [];
     }
+  },
+
+  /**
+   * Fetch all RSS feeds for a source, merge items, and deduplicate by title.
+   *
+   * @param {object} source Source configuration.
+   * @param {string[]} source.urls Array of feed URLs.
+   * @returns {Promise<object[]>} Merged and deduplicated feed items.
+   */
+  fetchAllFeeds: async function (source) {
+    const urls = source.urls || [];
+    if (urls.length === 0) {
+      Log.warn(`MMM-AINews: No URLs configured for "${source.name}"`);
+      return [];
+    }
+
+    const feedResults = await Promise.all(
+      urls.map((url) => this.fetchRSS(url))
+    );
+
+    // Merge all items and deduplicate by normalized title
+    const seen = new Set();
+    const merged = [];
+    for (const items of feedResults) {
+      for (const item of items) {
+        const key = item.title.toLowerCase().trim();
+        if (key && !seen.has(key)) {
+          seen.add(key);
+          merged.push(item);
+        }
+      }
+    }
+
+    Log.log(
+      `MMM-AINews: "${source.name}" — ${urls.length} feed(s), ${merged.length} unique items`
+    );
+    return merged;
   },
 
   /**
@@ -326,7 +362,7 @@ module.exports = NodeHelper.create({
       return { name: source.name, summary: "", error: null };
     }
 
-    const maxItems = source.maxItems || 50;
+    const maxItems = source.maxItems || 100;
     const truncated = items.slice(0, maxItems);
     const headlines = truncated
       .map((it, i) => {
@@ -411,7 +447,7 @@ module.exports = NodeHelper.create({
 
     const results = [];
     for (const source of sources) {
-      const items = await this.fetchRSS(source);
+      const items = await this.fetchAllFeeds(source);
       const result = await this.summarizeSource(source, items);
       results.push(result);
     }

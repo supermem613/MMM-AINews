@@ -6,13 +6,14 @@ Each configured source produces one paragraph of text, summarized according to p
 
 ## Features
 
-- **N sources → N paragraphs** — each RSS feed gets its own AI summary with custom instructions
+- **N sources → N paragraphs** — each source aggregates one or more RSS feeds into a single AI summary with custom instructions
 - **GitHub Copilot API** — uses the same chat completions API as Copilot in VS Code
 - **Standalone auth tool** — one-time device flow login, token persists indefinitely
 - **Auto-refreshing session tokens** — runs unattended with no manual intervention
 - **Staleness indicator** — visual warning when data is old
 - **Configurable title** — set via `header` in your MagicMirror config
-- **Zero external dependencies** — uses built-in `fetch` and MagicMirror's `feedme` RSS parser
+- **Multi-feed sources** — a single source can pull from multiple RSS URLs, merged and deduplicated
+- **Zero external dependencies** — uses Node built-ins and MagicMirror's `feedme` RSS parser
 
 ## Prerequisites
 
@@ -51,17 +52,20 @@ Add to your `config/config.js`:
         sources: [
             {
                 name: "Israel",
-                url: "https://www.ynetnews.com/cmlink/1.7886",
+                urls: [
+                    "https://www.israelhayom.com/feed/",
+                    "https://www.timesofisrael.com/feed/"
+                ],
                 instructions: "Summarize the top Israel headlines in 1-2 concise sentences. Focus on security and political developments."
             },
             {
                 name: "Tech",
-                url: "https://feeds.arstechnica.com/arstechnica/technology-lab",
+                urls: ["https://feeds.arstechnica.com/arstechnica/technology-lab"],
                 instructions: "Summarize the most significant technology news in 1-2 concise sentences."
             },
             {
                 name: "US News",
-                url: "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
+                urls: ["https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml"],
                 instructions: "Summarize the top US news in 1-2 sentences. Focus on major political and economic developments."
             }
         ]
