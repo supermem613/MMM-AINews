@@ -10,6 +10,7 @@ Module.register("MMM-AINews", {
     sources: [],
     model: "gpt-5-mini",
     credentialsPath: "credentials/github-oauth.json",
+    rssUserAgent: null,
     showSourceLabels: true,
     showUpdatedAt: true,
     alwaysShowUpdatedAt: true,

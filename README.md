@@ -49,6 +49,7 @@ Add to your `config/config.js`:
     config: {
         updateInterval: 30 * 60 * 1000, // 30 minutes
         model: "gpt-4.1",               // Copilot model to use
+        rssUserAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36 Edg/147.0.3912.72",
         sources: [
             {
                 name: "Israel",
@@ -82,6 +83,7 @@ Add to your `config/config.js`:
 | `model` | `"gpt-4.1"` | Copilot model to use for summarization |
 | `sources` | `[]` | Array of RSS source objects (see below) |
 | `credentialsPath` | `"credentials/github-oauth.json"` | Path to OAuth token file (relative to module dir) |
+| `rssUserAgent` | `null` | Optional User-Agent header for RSS fetches; defaults to `MMM-AINews/1.0` |
 | `showSourceLabels` | `true` | Show source name labels above each paragraph |
 | `showUpdatedAt` | `true` | Show "Updated HH:MM" footer |
 | `staleThresholdMs` | `7200000` (2 hr) | Age after which ⚠ staleness warning appears |

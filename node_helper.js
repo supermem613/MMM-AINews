@@ -18,6 +18,7 @@ const Log = require("logger");
 // Copilot API constants (verified from OpenClaw source)
 const COPILOT_TOKEN_URL = "https://api.github.com/copilot_internal/v2/token";
 const DEFAULT_API_BASE = "https://api.individual.githubcopilot.com";
+const DEFAULT_RSS_USER_AGENT = "Mozilla/5.0 (compatible; MMM-AINews/1.0)";
 const IDE_HEADERS = {
   "Editor-Version": "vscode/1.96.2",
   "User-Agent": "GitHubCopilotChat/0.26.7",
@@ -272,7 +273,9 @@ module.exports = NodeHelper.create({
 
     try {
       const xml = await httpText(url, {
-        headers: { "User-Agent": "Mozilla/5.0 (compatible; MMM-AINews/1.0)" }
+        headers: {
+          "User-Agent": this.config.rssUserAgent || DEFAULT_RSS_USER_AGENT
+        }
       });
 
       const items = await new Promise((resolve, reject) => {
