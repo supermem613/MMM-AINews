@@ -84,6 +84,8 @@ Add to your `config/config.js`:
 | `sources` | `[]` | Array of RSS source objects (see below) |
 | `credentialsPath` | `"credentials/github-oauth.json"` | Path to OAuth token file (relative to module dir) |
 | `rssUserAgent` | `null` | Optional User-Agent header for RSS fetches; defaults to `MMM-AINews/1.0` |
+| `source.maxItems` | `100` | Optional per-source cap on how many feed items are sent to the model |
+| `source.maxSentences` | `5` | Optional per-source sentence cap conveyed to the model prompt and token budget |
 | `showSourceLabels` | `true` | Show source name labels above each paragraph |
 | `showUpdatedAt` | `true` | Show "Updated HH:MM" footer |
 | `staleThresholdMs` | `7200000` (2 hr) | Age after which ⚠ staleness warning appears |

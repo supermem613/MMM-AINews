@@ -366,6 +366,7 @@ module.exports = NodeHelper.create({
     }
 
     const maxItems = source.maxItems || 100;
+    const maxSentences = source.maxSentences || 5;
     const truncated = items.slice(0, maxItems);
     const headlines = truncated
       .map((it, i) => {
@@ -377,14 +378,17 @@ module.exports = NodeHelper.create({
       .join("\n");
 
     const systemPrompt =
-      "You are a concise news summarizer for a smart mirror display. " +
-      "Produce only the requested paragraph(s). No headings, no bullet points, no markdown. " +
-      "English only. Be factual and concise.";
+      "You are a strict news selector and summarizer for a smart mirror display. " +
+      "Return exactly one short plain-English paragraph. No headings, no bullet points, no markdown. " +
+      "Apply the source instructions conservatively and omit anything borderline, routine, local, or only loosely related. " +
+      "Prefer false negatives over false positives. If nothing clearly qualifies, return an empty string.";
 
     const userPrompt =
       `Here are the latest headlines from "${source.name}":\n\n` +
       `${headlines}\n\n` +
-      `Instructions: ${source.instructions}`;
+      `Instructions: ${source.instructions}\n` +
+      `Length rule: return at most ${maxSentences} short sentences total. ` +
+      `If only 1-2 items clearly qualify, use fewer sentences.`;
 
     try {
       const postBody = JSON.stringify({
@@ -393,8 +397,8 @@ module.exports = NodeHelper.create({
           { role: "system", content: systemPrompt },
           { role: "user", content: userPrompt }
         ],
-        max_tokens: 300,
-        temperature: 0.3
+        max_tokens: Math.min(220, Math.max(70, maxSentences * 32)),
+        temperature: 0.1
       });
 
       const json = await httpJson(
