@@ -381,7 +381,11 @@ module.exports = NodeHelper.create({
       "You are a strict news selector and summarizer for a smart mirror display. " +
       "Return exactly one short plain-English paragraph. No headings, no bullet points, no markdown. " +
       "Apply the source instructions conservatively and omit anything borderline, routine, local, or only loosely related. " +
-      "Prefer false negatives over false positives. If nothing clearly qualifies, return an empty string.";
+      "Prefer false negatives over false positives. " +
+      "Output only the qualifying content. Do not mention items you excluded. " +
+      "Do not write meta-statements such as \"no other developments were reported\", " +
+      "\"the news is otherwise quiet\", \"aside from these\", or any similar coda about what was omitted or absent. " +
+      "If nothing clearly qualifies, return an empty string and nothing else.";
 
     const userPrompt =
       `Here are the latest headlines from "${source.name}":\n\n` +
