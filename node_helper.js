@@ -331,7 +331,7 @@ module.exports = NodeHelper.create({
       urls.map((url) => this.fetchRSS(url))
     );
 
-    // Merge all items and deduplicate by normalized title
+    // Merge all items and deduplicate by normalized title.
     const seen = new Set();
     const merged = [];
     for (const items of feedResults) {
@@ -343,6 +343,16 @@ module.exports = NodeHelper.create({
         }
       }
     }
+
+    // Sort by pubDate descending so the downstream maxItems slice picks the
+    // freshest items across all feeds, not just the items from the first feed
+    // listed. Unparseable dates sort to the end (Array.sort is stable in
+    // modern Node, so their relative insertion order is preserved).
+    merged.sort((a, b) => {
+      const ta = Date.parse(a.pubDate) || 0;
+      const tb = Date.parse(b.pubDate) || 0;
+      return tb - ta;
+    });
 
     Log.log(
       `MMM-AINews: "${source.name}" — ${urls.length} feed(s), ${merged.length} unique items`
