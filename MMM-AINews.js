@@ -15,7 +15,7 @@ Module.register("MMM-AINews", {
     showUpdatedAt: true,
     alwaysShowUpdatedAt: true,
     staleThresholdMs: 2 * 60 * 60 * 1000, // 2 hours
-    maxFrameWidth: 400,
+    frameWidth: 300, // px width of the rendered module column; raise to align with neighbouring modules
     animationSpeed: 1000
   },
 
@@ -53,7 +53,7 @@ Module.register("MMM-AINews", {
   getDom: function () {
     const wrapper = document.createElement("div");
     wrapper.className = "ainews-wrapper";
-    wrapper.style.maxWidth = `${this.config.maxFrameWidth}px`;
+    wrapper.style.width = `${this.config.frameWidth}px`;
 
     // Loading state
     if (!this.loaded && !this.error) {

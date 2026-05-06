@@ -1,41 +1,41 @@
 .ainews-wrapper {
-	line-height: 1.5;
-	word-wrap: break-word;
-	overflow-wrap: break-word;
+  line-height: 1.5;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .ainews-section {
-	margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .ainews-label {
-	display: block;
-	text-transform: uppercase;
-	letter-spacing: 0.05em;
-	margin-bottom: 2px;
-	opacity: 0.5;
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 2px;
+  opacity: 0.5;
 }
 
 .ainews-paragraph {
-	margin: 0;
-	padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .ainews-footer {
-	margin-top: 12px;
-	text-align: right;
+  margin-top: 12px;
+  text-align: right;
 }
 
 .ainews-stale {
-	color: #ff8800;
+  color: #f80;
 }
 
 .ainews-loading,
 .ainews-error,
 .ainews-empty {
-	font-style: italic;
+  font-style: italic;
 }
 
 .ainews-error {
-	color: #ff4444;
+  color: #f44;
 }

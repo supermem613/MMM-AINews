@@ -89,7 +89,7 @@ Add to your `config/config.js`:
 | `showSourceLabels` | `true` | Show source name labels above each paragraph |
 | `showUpdatedAt` | `true` | Show "Updated HH:MM" footer |
 | `staleThresholdMs` | `7200000` (2 hr) | Age after which ⚠ staleness warning appears |
-| `maxFrameWidth` | `400` | Maximum width of the module in pixels |
+| `frameWidth` | `300` | Width of the rendered module column, in pixels. Increase to align with neighbouring modules in the same region. |
 | `animationSpeed` | `1000` | DOM update animation speed (ms) |
 
 ### Token Lifecycle
