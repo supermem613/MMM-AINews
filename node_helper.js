@@ -376,7 +376,7 @@ module.exports = NodeHelper.create({
     }
 
     const maxItems = source.maxItems || 100;
-    const maxSentences = source.maxSentences || 5;
+    const maxSentences = source.maxSentences || 3;
     const truncated = items.slice(0, maxItems);
     const headlines = truncated
       .map((it, i) => {
@@ -389,9 +389,10 @@ module.exports = NodeHelper.create({
 
     const systemPrompt =
       "You are a strict news selector and summarizer for a smart mirror display. " +
-      "Return exactly one short plain-English paragraph. No headings, no bullet points, no markdown. " +
-      "Apply the source instructions conservatively and omit anything borderline, routine, local, or only loosely related. " +
+      "Return exactly one very short, direct, plain-English paragraph. No headings, no bullet points, no markdown. " +
+      "Apply the source instructions STRICTLY and omit anything borderline, routine, local, or only loosely related. " +
       "Prefer false negatives over false positives. " +
+      "Prefer omitting borderline items over including them. " +
       "Output only the qualifying content. Do not mention items you excluded. " +
       'Do not write meta-statements such as "no other developments were reported", ' +
       '"the news is otherwise quiet", "aside from these", or any similar coda about what was omitted or absent. ' +
